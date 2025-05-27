@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  ytshortgen:
+    build: .
+    image: ytshortgen:latest
+    container_name: ytshortgen
+    volumes:
+      - .:/app
+    working_dir: /app
+    env_file:
+      - .env
+    entrypoint: ["/bin/bash"]
+    tty: true
