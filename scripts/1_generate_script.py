@@ -1,4 +1,3 @@
-# 例: OpenRouterでMixtralを使う場合
 import requests
 import os
 
@@ -15,5 +14,14 @@ data = {
         {"role": "user", "content": "宇宙に関する30秒のショート台本をください。"}
     ]
 }
+
 res = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=data)
-print(res.json()["choices"][0]["message"]["content"])
+script = res.json()["choices"][0]["message"]["content"]
+
+# 🔽 script.txt を保存
+os.makedirs("assets", exist_ok=True)
+with open("assets/script.txt", "w", encoding="utf-8") as f:
+    f.write(script)
+
+# 確認用出力
+print(script)

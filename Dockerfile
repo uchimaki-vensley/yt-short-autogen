@@ -10,6 +10,8 @@ RUN apt-get update && \
 # Whisper用
 RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir openai requests python-dotenv whisper
+# Whisper公式版のインストール
+RUN pip install --no-cache-dir git+https://github.com/openai/whisper.git
 
 COPY . .
 
