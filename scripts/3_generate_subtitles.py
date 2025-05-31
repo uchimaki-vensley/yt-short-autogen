@@ -3,12 +3,17 @@ from dotenv import load_dotenv
 import whisper
 
 load_dotenv()
+output_dir = os.getenv("OUTPUT_DIR", "assets")
+
+audio_path = os.path.join(output_dir, "narration.mp3")
+subtitle_path = os.path.join(output_dir, "subtitles.srt")
+
+print("💬 字幕生成中...")
 
 model = whisper.load_model("base")
-audio_path = "assets/narration.mp3"
 result = model.transcribe(audio_path, fp16=False)
 
-with open("assets/subtitles.srt", "w", encoding="utf-8") as f:
+with open(subtitle_path, "w", encoding="utf-8") as f:
     for i, segment in enumerate(result["segments"]):
         start = segment["start"]
         end = segment["end"]
@@ -23,4 +28,4 @@ with open("assets/subtitles.srt", "w", encoding="utf-8") as f:
 
         f.write(f"{i+1}\n{format_time(start)} --> {format_time(end)}\n{text}\n\n")
 
-print("✅ 字幕生成完了：assets/subtitles.srt")
+print(f"✅ 字幕生成完了：{subtitle_path}")

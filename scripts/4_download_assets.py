@@ -1,21 +1,22 @@
 import os
 import requests
-import urllib.parse
 from dotenv import load_dotenv
 
 load_dotenv()
-API_KEY = os.getenv("PIXABAY_API_KEY")
+api_key = os.getenv("PIXABAY_API_KEY")  # TODO: .env に API キーをセット
+output_dir = os.getenv("OUTPUT_DIR", "assets")
 
 def download_background_video(query="technology"):
-    query = urllib.parse.quote(query)
-    url = f"https://pixabay.com/api/videos/?key={API_KEY}&q={query}&per_page=3"
+    print("📹 背景動画取得中...")
+    url = f"https://pixabay.com/api/videos/?key={api_key}&q={query}&per_page=3"
     response = requests.get(url)
+
     if response.status_code != 200:
         print("❌ Pixabay API リクエスト失敗")
         return
 
     data = response.json()
-    if not data["hits"]:
+    if not data.get("hits"):
         print("❌ 該当する動画が見つかりませんでした")
         return
 
@@ -24,10 +25,11 @@ def download_background_video(query="technology"):
 
     video_response = requests.get(video_url)
     if video_response.status_code == 200:
-        os.makedirs("assets", exist_ok=True)
-        with open("assets/bg.mp4", "wb") as f:
+        os.makedirs(output_dir, exist_ok=True)
+        bg_path = os.path.join(output_dir, "bg.mp4")
+        with open(bg_path, "wb") as f:
             f.write(video_response.content)
-        print("✅ 背景動画のダウンロード完了: assets/bg.mp4")
+        print(f"✅ 背景動画のダウンロード完了: {bg_path}")
     else:
         print("❌ 動画のダウンロードに失敗しました")
 
