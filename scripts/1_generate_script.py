@@ -21,7 +21,7 @@ data = {
     "model": "mistralai/mixtral-8x7b-instruct",
     "messages": [
         {"role": "system", "content": "You are a YouTube Shorts script generator."},
-        {"role": "user", "content": f"{prompt} に関する30秒のショート台本をください。"}
+        {"role": "user", "content": f"{prompt} に関する30秒のショート台本を日本語でください。"}
     ]
 }
 

@@ -11,7 +11,7 @@ subtitle_path = os.path.join(output_dir, "subtitles.srt")
 print("💬 字幕生成中...")
 
 model = whisper.load_model("base")
-result = model.transcribe(audio_path, fp16=False)
+result = model.transcribe(audio_path, fp16=False, language="ja")
 
 with open(subtitle_path, "w", encoding="utf-8") as f:
     for i, segment in enumerate(result["segments"]):
